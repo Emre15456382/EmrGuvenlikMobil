@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F766E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="color-scheme" content="light dark">
+<title>Emr Güvenlik Ultimate Pro</title>
+<style>
+:root{--bg:#F3F4F6;--card:#fff;--text:#1F2937;--muted:#6B7280;--accent:#0F766E;--accent-fg:#fff;--danger:#B42318;--ok:#067647;--warn:#B54708;--line:#E5E7EB;--field:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1720;--card:#18222E;--text:#E5E7EB;--muted:#9AA4B2;--accent:#2DD4BF;--accent-fg:#06201D;--danger:#F97066;--ok:#47CD89;--warn:#FDB022;--line:#2A3745;--field:#111A24}}
+:root[data-theme="dark"]{--bg:#0F1720;--card:#18222E;--text:#E5E7EB;--muted:#9AA4B2;--accent:#2DD4BF;--accent-fg:#06201D;--danger:#F97066;--ok:#47CD89;--warn:#FDB022;--line:#2A3745;--field:#111A24}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;user-select:none}
+input,textarea,.mono{user-select:text}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;position:sticky;top:0;background:var(--bg);z-index:10}
+header b{font-size:1.15rem}
+main{padding:0 16px 96px;max-width:640px;margin:0 auto}
+h2{font-size:1.4rem;margin:8px 0 12px}
+h3{font-size:1rem;margin:18px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.muted{color:var(--muted);font-size:.9rem;margin:0 0 12px}
+label{display:block;margin-bottom:12px;font-size:.95rem}
+input[type=password],input[type=text],input[type=file],input[type=number],textarea,select{display:block;width:100%;margin-top:4px;padding:12px;font:inherit;font-size:16px;color:var(--text);background:var(--field);border:1px solid var(--line);border-radius:8px}
+textarea{resize:vertical;min-height:90px}
+input[type=range]{width:100%;margin-top:6px}
+.chk{display:inline-flex;align-items:center;gap:8px;margin:0 14px 10px 0;min-height:32px}
+.chk input{width:20px;height:20px}
+.btn{min-height:44px;padding:10px 18px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-fg);font:inherit;font-weight:600;cursor:pointer;transition:opacity .15s}
+.btn:active{opacity:.8}
+.btn.quiet{background:var(--line);color:var(--text)}
+.btn.danger{background:var(--danger);color:#fff}
+.btn.full{width:100%}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.msg{min-height:1.4em;margin:4px 0 10px;font-size:.9rem}
+.err{color:var(--danger)}.good{color:var(--ok)}.warn{color:var(--warn)}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:.9rem;word-break:break-all}
+dl{margin:0}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.kv:last-child{border:0}
+.kv span{color:var(--muted)}.kv b{text-align:right;font-weight:600}
+.events{list-style:none;margin:0;padding:0;font-size:.82rem}
+.events li{padding:6px 0;border-bottom:1px solid var(--line);word-break:break-word}
+.events li:last-child{border:0}
+.bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden;margin:10px 0 6px}
+.bar i{display:block;height:100%;width:0;background:var(--muted);transition:width .15s}
+.badge{display:inline-block;padding:3px 9px;border-radius:12px;font-size:.78rem;font-weight:600;background:var(--line);color:var(--text)}
+.badge.online{background:var(--ok);color:#fff}
+.badge.offline{background:var(--danger);color:#fff}
+.terminal{background:#0B1117;color:#38BDF8;font-family:ui-monospace,Consolas,monospace;font-size:.82rem;padding:12px;border-radius:8px;min-height:110px;max-height:200px;overflow-y:auto;margin-bottom:10px;border:1px solid var(--line)}
+.totp-box{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;background:var(--field)}
+.totp-code{font-family:ui-monospace,Consolas,monospace;font-size:1.5rem;font-weight:700;letter-spacing:3px;color:var(--accent)}
+.login{min-height:100vh;display:flex;align-items:center;padding:16px}
+.login .card{width:100%;max-width:400px;margin:0 auto;padding:24px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);overflow-x:auto;z-index:20}
+nav button{flex:1;min-width:56px;min-height:56px;border:0;background:none;color:var(--muted);font:inherit;font-size:.65rem;white-space:nowrap}
+nav button[aria-current=page]{color:var(--accent);font-weight:700;box-shadow:inset 0 3px var(--accent)}
+</style>
+</head>
+<body>
+
+<section id="login" class="login">
+  <form class="card" id="loginForm">
+    <h2>Emr Güvenlik Ultimate</h2>
+    <p class="muted" id="loginHint"></p>
+    <label>Ana Parola <input type="password" id="pw1" autocomplete="current-password" required></label>
+    <label id="pw2Row" hidden>Parolayı tekrarla <input type="password" id="pw2" autocomplete="new-password"></label>
+    <p class="msg err" id="loginMsg" role="alert"></p>
+    <button class="btn full" id="loginBtn" type="submit"></button>
+  </form>
+</section>
+
+<div id="app" hidden>
+  <header>
+    <b>Emr Güvenlik Pro</b>
+    <div class="row" style="align-items:center;gap:8px">
+      <span id="pcStatusBadge" class="badge online">HTTP Aktif</span>
+      <button class="btn quiet" style="min-height:36px;padding:6px 12px" id="lock">Kilitle</button>
+    </div>
+  </header>
+  <main>
+    <!-- 1. GENEL DURUM -->
+    <section id="v-durum">
+      <h2>Genel durum</h2>
+      <div class="card"><dl id="secList"></dl></div>
+      <h3>Bu cihaz</h3>
+      <div class="card"><dl id="devList"></dl></div>
+      <p class="muted">Bilgiler tarayıcı katmanından güvenle toplanır.</p>
+      <h3>Son olaylar</h3>
+      <div class="card"><ul class="events" id="homeEvents"></ul></div>
+    </section>
+
+    <!-- 2. PC HTTP KÖPRÜSÜ & GELİŞMİŞ KOMUTLAR -->
+    <section id="v-pc" hidden>
+      <h2>PC HTTP Köprüsü & Uzaktan</h2>
+      <p class="muted">Aynı Wi-Fi ağındaki bilgisayarınıza HTTP REST API üzerinden tam yetkili komutlar gönderin.</p>
+      
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:10px">
+          <b>Bağlantı Ayarları</b>
+          <span id="pcConnState" class="badge online">Hazır</span>
+        </div>
+        <label>PC Yerel IP Adresi <input type="text" id="pcIp" placeholder="Örn: 192.168.1.35" class="mono"></label>
+        <label>Port Numarası <input type="number" id="pcPort" value="8765" class="mono"></label>
+        <label>Erişim Anahtarı (Token) <input type="password" id="pcToken" value="emr123" placeholder="PC istemcisindeki kod"></label>
+        <div class="row">
+          <button class="btn" id="pcConnectBtn" style="flex:1">Bağlantıyı Test Et</button>
+          <button class="btn quiet" id="pcPingBtn">Ping At</button>
+        </div>
+        <p class="msg" id="pcMsg" role="status"></p>
+      </div>
+
+      <h3>Gelişmiş PC Komutları</h3>
+      <div class="card">
+        <div class="row">
+          <button class="btn quiet" style="flex:1" onclick="sendPcCmd('LOCK_SCREEN')">🔒 Ekranı Kilitle</button>
+          <button class="btn quiet" style="flex:1" onclick="sendPcCmd('SYS_INFO')">💻 Sistem Bilgisi</button>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn quiet" style="flex:1" onclick="sendPcCmd('DEFENDER_SCAN')">🛡️ Defender Tara</button>
+          <button class="btn quiet" style="flex:1" onclick="sendPcCmd('SCREENSHOT')">📸 Ekran Görüntüsü</button>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn quiet" style="flex:1" onclick="sendPcCmd('MUTE_AUDIO')">🔇 Sesi Kapat</button>
+          <button class="btn quiet" style="flex:1" onclick="sendPcCmd('LIST_PROCESSES')">📋 Çalışan İşlemler</button>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn quiet" style="flex:1" onclick="sendPcCmd('OPEN_NOTEPAD')">📝 Not Defteri Aç</button>
+          <button class="btn danger" style="flex:1" onclick="sendPcCmd('EMERGENCY_LOCK')">🚨 Acil Kilit</button>
+        </div>
+      </div>
+
+      <h3>Özel Konsol Komutu Çalıştır</h3>
+      <div class="card">
+        <label>CMD / PowerShell Komutu <input type="text" id="shellCmdInput" placeholder="Örn: ipconfig veya shutdown /s /t 60" class="mono"></label>
+        <button class="btn full" onclick="executeRemoteShell()">Komutu PC'de Çalıştır</button>
+      </div>
+
+      <h3>Canlı Pano & İletişim Konsolu</h3>
+      <div class="card">
+        <label>PC Panosuna Metin Gönder <input type="text" id="pcPayload" placeholder="Metin veya şifre..." class="mono"></label>
+        <button class="btn full" onclick="sendPcClipboard()">PC Panosuna Aktar</button>
+      </div>
+      <div class="terminal" id="pcTerminal">[Sistem] HTTP köprüsü hazır...</div>
+      <button class="btn quiet full" onclick="document.getElementById('pcTerminal').innerHTML='[Sistem] Konsol temizlendi.'">Konsolu Temizle</button>
+    </section>
+
+    <!-- 3. 2FA AUTHENTICATOR (TOTP) -->
+    <section id="v-2fa" hidden>
+      <h2>2FA Doğrulayıcı (TOTP)</h2>
+      <p class="muted">Google Authenticator tarzı 30 saniyede bir yenilenen 6 haneli kodlar üretin.</p>
+      <div class="card">
+        <label>Hesap Adı <input type="text" id="totpName" placeholder="Örn: GitHub, Discord, Steam"></label>
+        <label>Gizli Anahtar (Base32 Secret) <input type="text" id="totpSecret" placeholder="Örn: JBSWY3DPEHPK3PXP" class="mono"></label>
+        <button class="btn full" id="addTotpBtn">2FA Hesabı Ekle</button>
+        <p class="msg" id="totpMsg"></p>
+      </div>
+      <div class="bar"><i id="totpTimerBar" style="background:var(--accent)"></i></div>
+      <p class="muted" id="totpTimerText" style="text-align:right">Kalan süre: 30s</p>
+      <div id="totpList"></div>
+    </section>
+
+    <!-- 4. PAROLA ARAÇLARI & HAVUZU -->
+    <section id="v-parola" hidden>
+      <h2>Parola Üretici & Kasa</h2>
+      <div class="card">
+        <label>Parolanızı denetleyin <input type="password" id="chk" autocomplete="off"></label>
+        <label class="chk"><input type="checkbox" id="chkShow"> Parolayı göster</label>
+        <div class="bar"><i id="chkBar"></i></div>
+        <b id="chkLabel"></b>
+        <ul id="chkTips" class="muted" style="margin:6px 0 0;padding-left:18px"></ul>
+      </div>
+      <div class="card">
+        <label>Uzunluk: <b id="lenVal">16</b><input type="range" id="len" min="8" max="64" value="16"></label>
+        <label class="chk"><input type="checkbox" id="oLower" checked> Küçük harf</label>
+        <label class="chk"><input type="checkbox" id="oUpper" checked> Büyük harf</label>
+        <label class="chk"><input type="checkbox" id="oDigit" checked> Rakam</label>
+        <label class="chk"><input type="checkbox" id="oSym" checked> Sembol</label>
+        <input type="text" id="genOut" class="mono" readonly aria-label="Üretilen parola">
+        <p class="msg" id="genMsg"></p>
+        <div class="row">
+          <button class="btn" id="genBtn">Parola üret</button>
+          <button class="btn quiet" id="copyBtn">Kopyala</button>
+          <button class="btn quiet" id="saveVaultBtn">Kasaya Kaydet</button>
+        </div>
+      </div>
+      <h3>Kayıtlı Parola Kasası</h3>
+      <div id="vaultListContainer"></div>
+    </section>
+
+    <!-- 5. AES-256 ŞİFRELEYİCİ -->
+    <section id="v-kripto" hidden>
+      <h2>AES-256 Şifreleyici</h2>
+      <p class="muted">Metinleri askeri düzeyde (PBKDF2 + AES-GCM) şifreleyin veya çözün.</p>
+      <div class="card">
+        <label>Şifreleme Anahtarı <input type="password" id="aesKey" placeholder="Gizli anahtar kelimeniz..."></label>
+        <label>Metin / Şifreli Kod <textarea id="aesInput" class="mono" placeholder="Düz metin veya Base64 şifreli veri..."></textarea></label>
+        <div class="row">
+          <button class="btn" style="flex:1" id="aesEncBtn">🔒 Şifrele</button>
+          <button class="btn quiet" style="flex:1" id="aesDecBtn">🔓 Şifre Çöz</button>
+        </div>
+        <p class="msg" id="aesMsg"></p>
+        <label>Sonuç <textarea id="aesOutput" class="mono" readonly></textarea></label>
+        <button class="btn quiet full" onclick="navigator.clipboard.writeText($('aesOutput').value)">Sonucu Kopyala</button>
+      </div>
+    </section>
+
+    <!-- 6. ŞİFRELİ NOTLAR -->
+    <section id="v-notlar" hidden>
+      <h2>Şifreli Notlar</h2>
+      <p class="muted">Önemli notlarınızı güvenle saklayın ve gerektiğinde PC'ye aktarın.</p>
+      <div class="card">
+        <label>Not Başlığı <input type="text" id="noteTitle" placeholder="Örn: Wi-Fi Şifreleri"></label>
+        <label>Not İçeriği <textarea id="noteContent" placeholder="Gizli metninizi buraya yazın..."></textarea></label>
+        <button class="btn full" id="saveNoteBtn">Notu Kaydet</button>
+        <p class="msg" id="noteMsg" role="status"></p>
+      </div>
+      <h3>Kayıtlı Notlar</h3>
+      <div id="notesListContainer"></div>
+    </section>
+
+    <!-- 7. GÜVENLİK DENETİMİ & PING -->
+    <section id="v-guvenlik" hidden>
+      <h2>Güvenlik Denetimi</h2>
+      <div class="card">
+        <label class="chk"><input type="checkbox" class="audit-chk" data-id="1"> Ekran kilidi (PIN / Biyometrik) aktif mi?</label>
+        <label class="chk"><input type="checkbox" class="audit-chk" data-id="2"> İki aşamalı doğrulama (2FA) kullanılıyor mu?</label>
+        <label class="chk"><input type="checkbox" class="audit-chk" data-id="3"> Tüm hesaplarda güçlü ve benzersiz parolalar var mı?</label>
+        <label class="chk"><input type="checkbox" class="audit-chk" data-id="4"> İşletim sistemi ve uygulamalar güncel mi?</label>
+        <label class="chk"><input type="checkbox" class="audit-chk" data-id="5"> Bilinmeyen kaynaklardan APK / dosya indirilmeme kuralı aktif mi?</label>
+        <p class="muted" id="auditScoreText" style="margin-top: 10px; font-weight: 600;"></p>
+      </div>
+
+      <h3>Ağ & Ping Testi</h3>
+      <div class="card">
+        <label>Hedef IP / Adres <input type="text" id="pingTarget" value="192.168.1.1" class="mono"></label>
+        <button class="btn full" id="runPingTest">Gecikme (HTTP Ping) Ölç</button>
+        <p class="msg" id="pingResult"></p>
+      </div>
+    </section>
+
+    <!-- 8. DOSYA DOĞRULAMA -->
+    <section id="v-dosya" hidden>
+      <h2>Dosya Doğrulama</h2>
+      <p class="muted">İndirdiğiniz dosyaların SHA-256 özetini hesaplayın.</p>
+      <div class="card">
+        <label>Dosya seçin <input type="file" id="file"></label>
+        <label>Dosyanın SHA-256 değeri <input type="text" id="fileHash" class="mono" readonly></label>
+        <label>Yayıncının verdiği değer (isteğe bağlı) <input type="text" id="expected" class="mono"></label>
+        <p class="msg" id="hashMsg" role="status"></p>
+      </div>
+    </section>
+
+    <!-- 9. QR KOD ÜRETİCİ (YENİ ÖZELLİK) -->
+    <section id="v-qr" hidden>
+      <h2>QR Kod Üretici</h2>
+      <p class="muted">Metinleri, Wi-Fi bağlantı bilgilerini veya parolaları anında QR koda dönüştürün.</p>
+      <div class="card">
+        <label>QR İçeriği <input type="text" id="qrInput" placeholder="Metin, URL veya 2FA secret..."></label>
+        <button class="btn full" id="genQrBtn">QR Kod Oluştur</button>
+        <div id="qrContainer" style="text-align:center; margin-top:15px;"></div>
+      </div>
+    </section>
+
+    <!-- 10. GÜNLÜK & AYARLAR -->
+    <section id="v-gunluk" hidden>
+      <h2>Olay günlüğü</h2>
+      <div class="card"><ul class="events" id="logList"></ul></div>
+      <div class="row">
+        <button class="btn quiet" style="flex:1" id="exportLogBtn">JSON İndir</button>
+        <button class="btn danger" style="flex:1" id="clearLog">Günlüğü temizle</button>
+      </div>
+    </section>
+
+    <section id="v-ayarlar" hidden>
+      <h2>Ayarlar</h2>
+      <div class="card">
+        <label>Mevcut parola <input type="password" id="sOld" autocomplete="current-password"></label>
+        <label>Yeni parola <input type="password" id="sNew" autocomplete="new-password"></label>
+        <label>Yeni parolayı tekrarla <input type="password" id="sAgain" autocomplete="new-password"></label>
+        <p class="msg" id="sMsg" role="status"></p>
+        <button class="btn full" id="sBtn">Parolayı değiştir</button>
+      </div>
+      <div class="card">
+        <b>Veri Yedekleme</b>
+        <p class="muted" style="margin-top:4px">Tüm notlarınızı, 2FA hesaplarınızı, parola kasanızı ve günlüklerinizi yedekleyin.</p>
+        <button class="btn quiet full" id="backupDataBtn">Tüm Verileri Yedekle (.json)</button>
+      </div>
+    </section>
+  </main>
+  <nav>
+    <button data-view="durum">Durum</button>
+    <button data-view="pc">PC HTTP</button>
+    <button data-view="2fa">2FA</button>
+    <button data-view="parola">Parola</button>
+    <button data-view="kripto">AES</button>
+    <button data-view="notlar">Notlar</button>
+    <button data-view="guvenlik">Denetim</button>
+    <button data-view="dosya">Dosya</button>
+    <button data-view="qr">QR Kod</button>
+    <button data-view="gunluk">Günlük</button>
+    <button data-view="ayarlar">Ayarlar</button>
+  </nav>
+</div>
+
+<script>
+"use strict";
+const ITER = 200000, MIN_LEN = 8, MAX_FAILS = 5, LOCK_MS = 30000, AUTO_LOCK_MS = 120000;
+const COMMON = new Set(["123456","12345678","123456789","password","qwerty","111111","123123","abc123","iloveyou","admin","parola","sifre","şifre","galatasaray","fenerbahce","besiktas","trabzonspor","istanbul","ankara","türkiye","turkiye","1q2w3e4r","qwerty123","password1"]);
+const SEQ = "abcdefghijklmnopqrstuvwxyz0123456789qwertyuıopasdfghjklzxcvbnm";
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+const toHex = b => [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, "0")).join("");
+const nowStr = () => new Date().toLocaleString("tr-TR");
+const fmt = n => n > 1073741824 ? (n / 1073741824).toFixed(1) + " GB" : n > 1048576 ? Math.round(n / 1048576) + " MB" : Math.round(n / 1024) + " KB";
+
+async function derive(pw, saltHex) {
+  const salt = Uint8Array.from(saltHex.match(/../g), h => parseInt(h, 16));
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveBits"]);
+  return toHex(await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt, iterations: ITER }, key, 256));
+}
+async function setPassword(pw) {
+  const salt = toHex(crypto.getRandomValues(new Uint8Array(16)));
+  store.set("auth", { salt, hash: await derive(pw, salt) });
+}
+async function checkPassword(pw) {
+  const a = store.get("auth");
+  if (!a) return false;
+  const h = await derive(pw, a.salt);
+  let diff = h.length ^ a.hash.length;
+  for (let i = 0; i < h.length; i++) diff |= h.charCodeAt(i) ^ (a.hash.charCodeAt(i) || 0);
+  return diff === 0;
+}
+function logEvent(t) { const l = store.get("log", []); l.push(nowStr() + "  " + t); store.set("log", l.slice(-300)); }
+
+function randInt(n) {
+  const lim = Math.floor(2 ** 32 / n) * n, a = new Uint32Array(1);
+  do crypto.getRandomValues(a); while (a[0] >= lim);
+  return a[0] % n;
+}
+function generatePassword(len, pools) {
+  const out = pools.map(p => p[randInt(p.length)]), all = pools.join("");
+  while (out.length < len) out.push(all[randInt(all.length)]);
+  for (let i = out.length - 1; i > 0; i--) { const j = randInt(i + 1); [out[i], out[j]] = [out[j], out[i]]; }
+  return out.join("");
+}
+function assess(pw) {
+  if (!pw) return { score: 0, label: "Parola girin", color: "var(--muted)", tips: [] };
+  const tips = [];
+  let pool = 0;
+  if (/\p{Ll}/u.test(pw)) pool += 26; else tips.push("Küçük harf ekleyin.");
+  if (/\p{Lu}/u.test(pw)) pool += 26; else tips.push("Büyük harf ekleyin.");
+  if (/\d/.test(pw)) pool += 10; else tips.push("Rakam ekleyin.");
+  if (/[^\p{L}\d]/u.test(pw)) pool += 30; else tips.push("Sembol ekleyin (örn. ! ? # %).");
+  if (pw.length < 12) tips.push("En az 12 karakter kullanın.");
+  let bits = pw.length * Math.log2(Math.max(pool, 2));
+  const low = pw.toLowerCase();
+  if (COMMON.has(low)) { bits = Math.min(bits, 10); tips.unshift("Bu parola çok yaygın, kolayca tahmin edilir."); }
+  if (new Set(pw).size <= Math.max(2, Math.floor(pw.length / 4))) { bits *= 0.5; tips.push("Tekrar eden karakterlerden kaçının."); }
+  for (let i = 0; i + 4 <= low.length; i++) {
+    const s = low.slice(i, i + 4);
+    if (SEQ.includes(s) || SEQ.includes([...s].reverse().join(""))) { bits *= 0.7; tips.push("Ardışık dizilerden (abcd, 1234) kaçının."); break; }
+  }
+  const [label, color] = bits < 28 ? ["Çok zayıf", "var(--danger)"] : bits < 40 ? ["Zayıf", "var(--danger)"]
+    : bits < 60 ? ["Orta", "var(--warn)"] : bits < 80 ? ["Güçlü", "var(--ok)"] : ["Çok güçlü", "var(--ok)"];
+  return { score: Math.min(100, Math.floor(bits / 80 * 100)), label, color, tips };
+}
+async function sha256File(f) { return toHex(await crypto.subtle.digest("SHA-256", await f.arrayBuffer())); }
+
+async function deviceRows() {
+  const r = [["Çevrimiçi", navigator.onLine ? "Evet" : "Hayır"]], c = navigator.connection;
+  if (c) r.push(["Bağlantı", [c.effectiveType, c.downlink ? c.downlink + " Mbit/sn" : ""].filter(Boolean).join(", ")]);
+  try { if (navigator.getBattery) { const b = await navigator.getBattery(); r.push(["Pil", Math.round(b.level * 100) + "% (" + (b.charging ? "şarjda" : "pilde") + ")"]); } } catch {}
+  if (navigator.deviceMemory) r.push(["Bellek (yaklaşık)", navigator.deviceMemory + " GB"]);
+  if (navigator.hardwareConcurrency) r.push(["İşlemci çekirdeği", String(navigator.hardwareConcurrency)]);
+  try { if (navigator.storage && navigator.storage.estimate) { const e = await navigator.storage.estimate(); r.push(["Depolama", fmt(e.usage) + " / " + fmt(e.quota)]); } } catch {}
+  r.push(["Ekran", screen.width + "×" + screen.height]);
+  return r;
+}
+
+const $ = id => document.getElementById(id);
+const setMsg = (el, t, cls) => { el.textContent = t; el.className = "msg " + (cls || ""); };
+const VIEWS = ["durum", "pc", "2fa", "parola", "kripto", "notlar", "guvenlik", "dosya", "qr", "gunluk", "ayarlar"];
+let previousLogin = "";
+
+function fillList(el, items) {
+  el.replaceChildren(...(items.length ? items : ["Henüz kayıtlı olay yok."]).map(t => { const li = document.createElement("li"); li.textContent = t; return li; }));
+}
+function fillKv(el, rows) {
+  el.replaceChildren(...rows.map(([k, v]) => {
+    const d = document.createElement("div"); d.className = "kv";
+    const s = document.createElement("span"), b = document.createElement("b");
+    s.textContent = k; b.textContent = v; d.append(s, b); return d;
+  }));
+}
+async function show(view) {
+  VIEWS.forEach(v => $("v-" + v).hidden = v !== view);
+  document.querySelectorAll("nav button").forEach(b =>
+    b.dataset.view === view ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current"));
+  window.scrollTo(0, 0);
+  if (view === "durum") {
+    fillKv($("secList"), [
+      ["Önceki giriş", previousLogin],
+      ["Toplam hatalı deneme", String(store.get("stats", {}).fails || 0)],
+      ["PC Bağlantı Türü", "HTTP REST API"],
+      ["Kripto Motoru", "PBKDF2 + AES-GCM"]
+    ]);
+    fillList($("homeEvents"), store.get("log", []).slice(-5).reverse());
+    fillKv($("devList"), await deviceRows());
+  }
+  if (view === "gunluk") fillList($("logList"), store.get("log", []).slice().reverse());
+  if (view === "notlar") renderNotes();
+  if (view === "guvenlik") renderAudit();
+  if (view === "2fa") renderTotpList();
+  if (view === "parola") renderVault();
+}
+
+function setupLogin() {
+  const first = !store.get("auth");
+  $("loginHint").textContent = first ? "İlk kullanım: bir giriş parolası belirleyin." : "Devam etmek için parolanızı girin.";
+  $("loginBtn").textContent = first ? "Kaydet ve gir" : "Giriş yap";
+  $("pw2Row").hidden = !first;
+  $("pw1").value = $("pw2").value = "";
+  $("loginMsg").textContent = "";
+  $("login").hidden = false;
+  $("app").hidden = true;
+}
+function enterApp() {
+  const st = store.get("stats", {});
+  previousLogin = st.last || "Bu ilk girişiniz";
+  st.last = nowStr();
+  store.set("stats", st);
+  logEvent("Başarılı giriş.");
+  $("login").hidden = true;
+  $("app").hidden = false;
+  const savedPc = store.get("pcConfig", {});
+  if (savedPc.ip) $("pcIp").value = savedPc.ip;
+  if (savedPc.port) $("pcPort").value = savedPc.port;
+  show("durum");
+}
+$("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("loginMsg"), pw = $("pw1").value;
+  if (!store.get("auth")) {
+    if (pw.length < MIN_LEN) return setMsg(msg, `Parola en az ${MIN_LEN} karakter olmalı.`, "err");
+    if (pw !== $("pw2").value) return setMsg(msg, "Parolalar eşleşmiyor.", "err");
+    await setPassword(pw); logEvent("Parola oluşturuldu."); return enterApp();
+  }
+  const wait = store.get("lock", 0) - Date.now();
+  if (wait > 0) return setMsg(msg, `Çok fazla hatalı deneme. ${Math.ceil(wait / 1000)} sn bekleyin.`, "err");
+  if (await checkPassword(pw)) { store.set("fails", 0); return enterApp(); }
+  const fails = store.get("fails", 0) + 1, st = store.get("stats", {});
+  st.fails = (st.fails || 0) + 1; store.set("stats", st);
+  logEvent(`Hatalı giriş denemesi (${fails}/${MAX_FAILS}).`);
+  if (fails >= MAX_FAILS) {
+    store.set("fails", 0); store.set("lock", Date.now() + LOCK_MS);
+    logEvent("Giriş kilitlendi.");
+    setMsg(msg, `Giriş ${LOCK_MS / 1000} saniye kilitlendi.`, "err");
+  } else { store.set("fails", fails); setMsg(msg, `Parola yanlış. Kalan hak: ${MAX_FAILS - fails}`, "err"); }
+  $("pw1").value = "";
+});
+$("lock").addEventListener("click", () => { logEvent("Kilitlendi."); setupLogin(); });
+document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => show(b.dataset.view)));
+
+// ===== 2FA AUTHENTICATOR (TOTP) =====
+function base32ToBytes(b32) {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+  let bits = "", bytes = [];
+  b32 = b32.replace(/=+$/, "").replace(/\s+/g, "").toUpperCase();
+  for (let c of b32) {
+    const val = alphabet.indexOf(c);
+    if (val === -1) continue;
+    bits += val.toString(2).padStart(5, "0");
+  }
+  for (let i = 0; i + 8 <= bits.length; i += 8) bytes.push(parseInt(bits.slice(i, i + 8), 2));
+  return new Uint8Array(bytes);
+}
+async function generateTOTP(secret) {
+  try {
+    const keyData = base32ToBytes(secret);
+    if (!keyData.length) return "HATALI KEY";
+    const epoch = Math.floor(Date.now() / 1000 / 30);
+    const timeBuf = new ArrayBuffer(8);
+    new DataView(timeBuf).setUint32(4, epoch);
+    const key = await crypto.subtle.importKey("raw", keyData, { name: "HMAC", hash: "SHA-1" }, false, ["sign"]);
+    const hmac = new Uint8Array(await crypto.subtle.sign("HMAC", key, timeBuf));
+    const offset = hmac[hmac.length - 1] & 0xf;
+    const code = ((hmac[offset] & 0x7f) << 24) | ((hmac[offset + 1] & 0xff) << 16) | ((hmac[offset + 2] & 0xff) << 8) | (hmac[offset + 3] & 0xff);
+    return String(code % 1000000).padStart(6, "0");
+  } catch { return "HATA"; }
+}
+async function renderTotpList() {
+  const list = store.get("totp", []);
+  const el = $("totpList");
+  if (!list.length) { el.innerHTML = '<div class="card muted">Henüz 2FA hesabı eklenmedi.</div>'; return; }
+  const html = [];
+  for (let i = 0; i < list.length; i++) {
+    const code = await generateTOTP(list[i].secret);
+    html.push(`<div class="totp-box">
+      <div><b>${escapeHtml(list[i].name)}</b><div class="totp-code">${code.slice(0,3)} ${code.slice(3)}</div></div>
+      <div class="row">
+        <button class="btn quiet" style="padding:6px 10px" onclick="navigator.clipboard.writeText('${code}')">Kopyala</button>
+        <button class="btn danger" style="padding:6px 10px" onclick="delTotp(${i})">Sil</button>
+      </div>
+    </div>`);
+  }
+  el.innerHTML = html.join("");
+}
+$("addTotpBtn").addEventListener("click", () => {
+  const name = $("totpName").value.trim(), secret = $("totpSecret").value.trim();
+  if (!name || !secret) return setMsg($("totpMsg"), "Hesap adı ve gizli anahtar gerekli.", "err");
+  const list = store.get("totp", []);
+  list.push({ name, secret });
+  store.set("totp", list);
+  $("totpName").value = $("totpSecret").value = "";
+  setMsg($("totpMsg"), "2FA hesabı eklendi.", "good");
+  logEvent("2FA hesabı eklendi: " + name);
+  renderTotpList();
+});
+window.delTotp = i => { const l = store.get("totp", []); l.splice(i, 1); store.set("totp", l); renderTotpList(); };
+setInterval(() => {
+  const sec = 30 - (Math.floor(Date.now() / 1000) % 30);
+  if ($("totpTimerBar")) {
+    $("totpTimerBar").style.width = (sec / 30 * 100) + "%";
+    $("totpTimerText").textContent = `Kalan süre: ${sec}s`;
+    if (sec === 30 && !$("v-2fa").hidden) renderTotpList();
+  }
+}, 1000);
+
+// ===== PAROLA KASASI =====
+function renderVault() {
+  const vault = store.get("vault", []), c = $("vaultListContainer");
+  c.innerHTML = vault.length ? "" : '<div class="card muted">Kasede henüz kayıtlı parola yok.</div>';
+  vault.forEach((v, i) => {
+    const d = document.createElement("div"); d.className = "card";
+    d.innerHTML = `<b>${escapeHtml(v.title)}</b><div class="mono" style="margin:6px 0">${escapeHtml(v.pass)}</div>
+    <div class="row"><button class="btn quiet" style="padding:6px 12px" onclick="navigator.clipboard.writeText('${v.pass}')">Kopyala</button><button class="btn danger" style="padding:6px 12px" onclick="delVault(${i})">Sil</button></div>`;
+    c.appendChild(d);
+  });
+}
+$("saveVaultBtn").addEventListener("click", () => {
+  const pw = $("genOut").value; if (!pw) return;
+  const title = prompt("Bu parola ne için? (Örn: Gmail Hesabı):");
+  if (!title) return;
+  const vault = store.get("vault", []); vault.push({ title, pass: pw }); store.set("vault", vault);
+  setMsg($("genMsg"), "Parola kasaya kaydedildi!", "good");
+  renderVault();
+});
+window.delVault = i => { const v = store.get("vault", []); v.splice(i, 1); store.set("vault", v); renderVault(); };
+
+// ===== AES-256 ŞİFRELEYİCİ =====
+async function getAesKey(pw, salt) {
+  const enc = new TextEncoder();
+  const keyMat = await crypto.subtle.importKey("raw", enc.encode(pw), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" }, keyMat, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+}
+$("aesEncBtn").addEventListener("click", async () => {
+  const pw = $("aesKey").value, text = $("aesInput").value;
+  if (!pw || !text) return setMsg($("aesMsg"), "Anahtar ve metin girin.", "err");
+  try {
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const key = await getAesKey(pw, salt);
+    const cipher = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(text));
+    const combined = new Uint8Array(salt.length + iv.length + cipher.byteLength);
+    combined.set(salt, 0); combined.set(iv, 16); combined.set(new Uint8Array(cipher), 28);
+    $("aesOutput").value = btoa(String.fromCharCode(...combined));
+    setMsg($("aesMsg"), "AES-256 ile şifrelendi.", "good");
+  } catch { setMsg($("aesMsg"), "Şifreleme başarısız.", "err"); }
+});
+$("aesDecBtn").addEventListener("click", async () => {
+  const pw = $("aesKey").value, b64 = $("aesInput").value.trim();
+  if (!pw || !b64) return setMsg($("aesMsg"), "Anahtar ve şifreli metni girin.", "err");
+  try {
+    const raw = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+    const salt = raw.slice(0, 16), iv = raw.slice(16, 28), data = raw.slice(28);
+    const key = await getAesKey(pw, salt);
+    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, data);
+    $("aesOutput").value = new TextDecoder().decode(plain);
+    setMsg($("aesMsg"), "Şifre çözüldü.", "good");
+  } catch { setMsg($("aesMsg"), "Anahtar yanlış veya veri bozulmuş!", "err"); }
+});
+
+// ===== QR KOD ÜRETİCİ =====
+$("genQrBtn").addEventListener("click", () => {
+  const val = $("qrInput").value.trim();
+  const c = $("qrContainer");
+  if (!val) { c.innerHTML = ""; return; }
+  const encoded = encodeURIComponent(val);
+  c.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encoded}" alt="QR Kod" style="border-radius:8px; border:1px solid var(--line);">`;
+});
+
+// ===== PC HTTP BAĞLANTI MODÜLÜ =====
+function termLog(msg) {
+  const t = $("pcTerminal");
+  const line = document.createElement("div");
+  line.textContent = `[${new Date().toLocaleTimeString("tr-TR")}] ${msg}`;
+  t.appendChild(line);
+  t.scrollTop = t.scrollHeight;
+}
+
+$("pcConnectBtn").addEventListener("click", async () => {
+  const ip = $("pcIp").value.trim(), port = $("pcPort").value.trim(), token = $("pcToken").value.trim();
+  if (!ip || !port) return setMsg($("pcMsg"), "Lütfen IP adresi ve port girin.", "err");
+  store.set("pcConfig", { ip, port });
+  setMsg($("pcMsg"), "Bağlantı test ediliyor...", "warn");
+  termLog(`HTTP Ping -> http://${ip}:${port}/api/cmd`);
+  try {
+    const res = await fetch(`http://${ip}:${port}/api/cmd`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ command: "PING", token })
+    });
+    if (res.ok) {
+      const json = await res.json();
+      setMsg($("pcMsg"), "PC HTTP sunucusu aktif ve yanıt verdi!", "good");
+      termLog("Yanıt: " + JSON.stringify(json));
+      logEvent(`PC HTTP bağlantı başarılı (${ip}:${port}).`);
+    } else {
+      setMsg($("pcMsg"), `Hata Kodu: ${res.status}`, "warn");
+    }
+  } catch {
+    setMsg($("pcMsg"), "Bağlantı kurulamadı! Python sunucusunun çalıştığından emin olun.", "err");
+    termLog("HATA: İstek başarısız oldu.");
+  }
+});
+
+window.sendPcCmd = async function(cmd, extraData = "") {
+  const ip = $("pcIp").value.trim(), port = $("pcPort").value.trim(), token = $("pcToken").value.trim();
+  if (!ip || !port) return setMsg($("pcMsg"), "Önce PC IP adresini girin.", "err");
+  store.set("pcConfig", { ip, port });
+  
+  const packet = { command: cmd, data: extraData, token, ts: Date.now() };
+  termLog(`Gönderiliyor: ${cmd}`);
+  
+  try {
+    const res = await fetch(`http://${ip}:${port}/api/cmd`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(packet)
+    });
+    if (res.ok) {
+      const json = await res.json();
+      termLog(`Yanıt: ${JSON.stringify(json)}`);
+      setMsg($("pcMsg"), `İletildi: ${cmd}`, "good");
+      logEvent(`PC komutu: ${cmd}`);
+    } else {
+      termLog(`Hata (${res.status})`);
+      setMsg($("pcMsg"), "Komut reddedildi (Token yanlış olabilir).", "err");
+    }
+  } catch {
+    termLog("HATA: Bilgisayara ulaşılamadı.");
+    setMsg($("pcMsg"), "Bağlantı hatası.", "err");
+  }
+};
+
+window.executeRemoteShell = () => {
+  const cmd = $("shellCmdInput").value.trim();
+  if (!cmd) return;
+  sendPcCmd("EXEC_SHELL", cmd);
+  $("shellCmdInput").value = "";
+};
+
+$("pcPingBtn").addEventListener("click", () => sendPcCmd("PING", "Merhaba PC!"));
+window.sendPcClipboard = () => { const v = $("pcPayload").value; if (v) { sendPcCmd("SET_CLIPBOARD", v); setMsg($("pcMsg"), "Panoya iletildi.", "good"); } };
+
+// ===== PAROLA, NOTLAR, DENETİM, DOSYA =====
+$("chk").addEventListener("input", () => {
+  const r = assess($("chk").value);
+  $("chkBar").style.width = r.score + "%"; $("chkBar").style.background = r.color;
+  $("chkLabel").textContent = r.label; $("chkLabel").style.color = r.color;
+  $("chkTips").replaceChildren(...r.tips.map(x => { const li = document.createElement("li"); li.textContent = x; return li; }));
+});
+$("chkShow").addEventListener("change", e => { $("chk").type = e.target.checked ? "text" : "password"; });
+$("len").addEventListener("input", e => { $("lenVal").textContent = e.target.value; });
+$("genBtn").addEventListener("click", () => {
+  const pools = [];
+  if ($("oLower").checked) pools.push("abcdefghijklmnopqrstuvwxyz");
+  if ($("oUpper").checked) pools.push("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  if ($("oDigit").checked) pools.push("0123456789");
+  if ($("oSym").checked) pools.push("!@#$%&*?-_+=");
+  if (!pools.length) return setMsg($("genMsg"), "En az bir tür seçin.", "err");
+  const pw = generatePassword(+$("len").value, pools);
+  $("genOut").value = pw;
+  setMsg($("genMsg"), "Güç: " + assess(pw).label, "good");
+});
+$("copyBtn").addEventListener("click", async () => {
+  if ($("genOut").value) { await navigator.clipboard.writeText($("genOut").value).catch(()=>{}); setMsg($("genMsg"), "Kopyalandı.", "good"); setTimeout(() => navigator.clipboard.writeText("").catch(()=>{}), 30000); }
+});
+
+function escapeHtml(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function renderNotes() {
+  const notes = store.get("notes", []), c = $("notesListContainer");
+  c.innerHTML = notes.length ? "" : '<div class="card muted">Henüz not yok.</div>';
+  notes.forEach((n, i) => {
+    const d = document.createElement("div"); d.className = "card";
+    d.innerHTML = `<b>${escapeHtml(n.title)}</b><div class="mono" style="white-space:pre-wrap; margin:6px 0">${escapeHtml(n.content)}</div>
+    <div class="row"><button class="btn quiet" style="padding:6px 12px" onclick="navigator.clipboard.writeText('${n.content.replace(/'/g, "\'")}')">Kopyala</button><button class="btn danger" style="padding:6px 12px" onclick="deleteNote(${i})">Sil</button></div>`;
+    c.appendChild(d);
+  });
+}
+$("saveNoteBtn").addEventListener("click", () => {
+  const title = $("noteTitle").value.trim(), content = $("noteContent").value.trim();
+  if (!title || !content) return setMsg($("noteMsg"), "Başlık ve içerik girin.", "err");
+  const notes = store.get("notes", []); notes.push({ title, content, date: nowStr() }); store.set("notes", notes);
+  $("noteTitle").value = $("noteContent").value = ""; setMsg($("noteMsg"), "Not kaydedildi.", "good"); renderNotes();
+});
+window.deleteNote = i => { const n = store.get("notes", []); n.splice(i, 1); store.set("notes", n); renderNotes(); };
+
+function renderAudit() {
+  const st = store.get("audit", {});
+  document.querySelectorAll(".audit-chk").forEach(chk => {
+    chk.checked = !!st[chk.dataset.id];
+    chk.onchange = () => { st[chk.dataset.id] = chk.checked; store.set("audit", st); updateAuditScore(); };
+  });
+  updateAuditScore();
+}
+function updateAuditScore() {
+  const st = store.get("audit", {}), tot = document.querySelectorAll(".audit-chk").length, cnt = Object.values(st).filter(Boolean).length;
+  $("auditScoreText").textContent = `Güvenlik Skoru: %${Math.round(cnt / tot * 100)} (${cnt}/${tot})`;
+}
+$("runPingTest").addEventListener("click", async () => {
+  const t = $("pingTarget").value.trim(); if (!t) return;
+  const s = performance.now();
+  try { await fetch(`http://${t}`, { mode: "no-cors", cache: "no-store" }); setMsg($("pingResult"), `Erişilebilir: ~${Math.round(performance.now() - s)} ms`, "good"); }
+  catch { setMsg($("pingResult"), `Zaman aşımı (${Math.round(performance.now() - s)} ms).`, "err"); }
+});
+
+$("file").addEventListener("change", async e => {
+  const f = e.target.files[0]; if (!f) return;
+  setMsg($("hashMsg"), "Hesaplanıyor...");
+  try { $("fileHash").value = await sha256File(f); setMsg($("hashMsg"), "SHA-256 hesaplandı.", "good"); }
+  catch { setMsg($("hashMsg"), "Dosya okunamadı.", "err"); }
+});
+
+$("clearLog").addEventListener("click", () => { if (confirm("Silinsin mi?")) { store.set("log", []); show("gunluk"); } });
+$("exportLogBtn").addEventListener("click", () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(store.get("log", []), null, 2)])); a.download = "emr-gunluk.json"; a.click(); });
+$("backupDataBtn").addEventListener("click", () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify({ notes: store.get("notes", []), totp: store.get("totp", []), vault: store.get("vault", []), audit: store.get("audit", {}) }, null, 2)])); a.download = "emr-yedek.json"; a.click(); });
+$("sBtn").addEventListener("click", async () => {
+  const m = $("sMsg");
+  if (!(await checkPassword($("sOld").value))) return setMsg(m, "Mevcut parola yanlış.", "err");
+  if ($("sNew").value.length < MIN_LEN) return setMsg(m, `En az ${MIN_LEN} karakter olmalı.`, "err");
+  if ($("sNew").value !== $("sAgain").value) return setMsg(m, "Parolalar eşleşmiyor.", "err");
+  await setPassword($("sNew").value); ["sOld", "sNew", "sAgain"].forEach(id => $(id).value = ""); setMsg(m, "Parola değiştirildi.", "good");
+});
+
+$("chk").dispatchEvent(new Event("input"));
+$("genBtn").click();
+setupLogin();
+</script>
+</body>
+</html>
